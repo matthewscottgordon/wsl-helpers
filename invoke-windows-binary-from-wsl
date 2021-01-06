@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+# Run a command with WSL paths replaced with windows paths
+#
+# Example:
+#
+#    invoke-windows-binary-from-wsl echo ./relative /mnt/d/absolute
+#
+# would print "./relative d:/absolute", and
+#
+#    invoke-windows-binary-from-wsl notepad.exe /mnt/d/folder/file.txt
+#
+# would open "d:\folder\file.txt" in notepad.
+
+set -o nounset
+
+declare -a adjusted_args
+
+for arg in "$@"
+do
+    if [[ $arg =~ ^/mnt/([a-zA-Z])/ ]]
+    then
+        driveLetter=${BASH_REMATCH[1]}
+        adjusted_args+=(${arg/\/mnt\/${driveLetter}/${driveLetter}:})
+    else
+        adjusted_args+=(${arg})
+    fi
+done
+
+${adjusted_args[@]}
