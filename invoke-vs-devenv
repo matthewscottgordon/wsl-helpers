@@ -1,0 +1,19 @@
+#!/bin/env bash
+
+# Run a command in Visual Studio 2019 Developer PowerShell
+#
+# Usage:
+#
+#    invoke-vs-devenv COMMAND [ARGUMENTS...]
+#
+# Any paths passed must be in Windows format (e.g. "C:\Users", not
+# "/mnt/c/Users").
+#
+# Note: when installing this script on a new computer, the correct path
+# to Microsoft.VisualStudio.DevShell.dll and the correct InstanceId can
+# be found by looking at the "Target" property of the "Developer PowerShell
+# for VS 2019" shortcut in the start menu.
+
+set -o nounset
+
+powershell.exe -Command "pushd; Import-Module 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Professional\\Common7\\Tools\\Microsoft.VisualStudio.DevShell.dll'; Enter-VsDevShell -InstanceId 161d5bc0; popd; $@;"
