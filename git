@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Invoke windows git.exe if if the current working directory
+# in in the windows filesystem; or /usr/bin/git otherwise.
+
+if [[ ${PWD} =~ ^/mnt/[[:alpha:]]/ ]]; then
+    git.exe "$@"
+else
+    /usr/bin/git "$@"
+fi
