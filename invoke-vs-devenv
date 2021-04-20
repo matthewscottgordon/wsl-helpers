@@ -15,8 +15,9 @@
 # for VS 2019" shortcut in the start menu.
 
 set -o nounset
+set -o pipefail
 
 # The piped echo is needed for this to work when used in a compile command
 # in emacs. I guessing powershell.exe needs to see both input and output file
 # handles in order to work and the echo convinces it that's the case.
-echo | powershell.exe -NonInteractive -NoProfile -Command "& {pushd; Import-Module 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Professional\\Common7\\Tools\\Microsoft.VisualStudio.DevShell.dll'; Enter-VsDevShell -InstanceId 161d5bc0; popd; $@;}"
+echo | powershell.exe -NonInteractive -NoProfile -Command "& {pushd; Import-Module 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Professional\\Common7\\Tools\\Microsoft.VisualStudio.DevShell.dll'; Enter-VsDevShell -InstanceId 161d5bc0; popd; $@; Exit \$LastExitCode}"
